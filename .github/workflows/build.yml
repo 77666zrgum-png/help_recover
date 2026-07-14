@@ -50,13 +50,10 @@ jobs:
               - assets/bg_image.png
           EOF
           
-          # 2. توليد بيئة أندرويد نظيفة ومستقرة تماماً بالاسم التسويقي الجديد مباشرة!
+          # 2. توليد بيئة أندرويد نظيفة ومستقرة تماماً من الصفر
           rm -rf android
           flutter create . --platforms=android --org=com.mohammed --project-name=help_recover
           flutter pub get
-          
-          # 3. حقن أذونات جدار حماية الأندرويد للمتصفح لمنع حظر الروابط
-          sed -i '/<application/i \    <queries>\n        <intent>\n            <action android:name="android.intent.action.VIEW" />\n            <category android:name="android.intent.category.BROWSABLE" />\n            <data android:scheme="https" />\n        </intent>\n        <intent>\n            <action android:name="android.intent.action.VIEW" />\n            <category android:name="android.intent.category.BROWSABLE" />\n            <data android:scheme="http" />\n        </intent>\n    </queries>\n' android/app/src/main/AndroidManifest.xml
 
       - name: Build Debug APK
         run: flutter build apk --debug --no-tree-shake-icons
