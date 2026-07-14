@@ -148,7 +148,7 @@ class _MainRecoveryScreenState extends State<MainRecoveryScreen> {
                     decoration: InputDecoration(labelText: lang[cl]!['problem'], filled: true, fillColor: Colors.white),
                     value: _selectedProblem,
                     // 🔥 تمت إعادة جميع خيارات المشاكل السابقة كاملة وموسعة هنا بالأسفل بالملي
-                    items: ['تم اختراقه (Hacked)', 'تم تعطيله (Disabled)', 'نسيت كلمة السر (Forgot Password)', 'مشكلة في التحقق بخطوتين (2FA Problem)'].map((v) => DropdownMenuItem(value: v, child: Text(v))).toList(),
+                    items: ['تم اختراقه (Hacked)', 'تم تعطيله (Disabled)', 'انتحال شخصية (Impersonation)', 'نسيان كلمة المرور (Forgot )', 'مشكلة في التحقق بخطوتينPassword (2FA Problem)'].map((v) => DropdownMenuItem(value: v, child: Text(v))).toList(),
                     onChanged: (val) => setState(() => _selectedProblem = val),
                     validator: (val) => val == null ? lang[cl]!['val_problem'] : null,
                   ),
