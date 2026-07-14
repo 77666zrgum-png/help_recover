@@ -26,7 +26,7 @@ jobs:
           flutter-version: any
           channel: 'stable'
 
-      - name: Recreate Project and Strip Signing
+      - name: Recreate Project and Build
         run: |
           # كتابة ملف pubspec منسق بالملي
           cat << 'EOF' > pubspec.yaml
@@ -50,16 +50,10 @@ jobs:
               - assets/bg_image.png
           EOF
           
-          # بناء المشروع بالكامل من الصفر لإزالة التعارضات
+          # مسح المجلد القديم وتوليد بيئة أندرويد جديدة ونظيفة ومستقرة تماماً
           rm -rf android
-          flutter create . --platforms=android --org=com.mohammed
+          flutter create . --platforms=android
           flutter pub get
-          
-          # إلغاء إعدادات التوقيع من ملف build.gradle لتخطي القفل
-          sed -i 's/signingConfigs.release/signingConfigs.debug/g' android/app/build.gradle
-          
-          # حقن أذونات جدار حماية الأندرويد للمتصفح
-          sed -i '/<application/i \    <queries>\n        <intent>\n            <action android:name="android.intent.action.VIEW" />\n            <category android:name="android.intent.category.BROWSABLE" />\n            <data android:scheme="https" />\n        </intent>\n        <intent>\n            <action android:name="android.intent.action.VIEW" />\n            <category android:name="android.intent.category.BROWSABLE" />\n            <data android:scheme="http" />\n        </intent>\n    </queries>\n' android/app/src/main/AndroidManifest.xml
 
       - name: Build Debug APK
         run: flutter build apk --debug --no-tree-shake-icons
