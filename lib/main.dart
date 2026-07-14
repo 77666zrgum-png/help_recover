@@ -14,9 +14,7 @@ class HelpRecoverApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'استرجاع حساب تكتوك وانستغرام وفيسبوك',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const MainRecoveryScreen(),
     );
   }
@@ -24,7 +22,6 @@ class HelpRecoverApp extends StatelessWidget {
 
 class MainRecoveryScreen extends StatefulWidget {
   const MainRecoveryScreen({super.key});
-
   @override
   State<MainRecoveryScreen> createState() => _MainRecoveryScreenState();
 }
@@ -33,7 +30,6 @@ class _MainRecoveryScreenState extends State<MainRecoveryScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _otherProblemController = TextEditingController();
-
   String? _selectedPlatform;
   String? _selectedProblem;
 
@@ -58,11 +54,8 @@ class _MainRecoveryScreenState extends State<MainRecoveryScreen> {
   };
 
   final _formKey = GlobalKey<FormState>();
-
   void _launchSupportUrl(String platform) async {
     String urlString = 'https://instagram.com';
-    
-    // إصلاح الروابط الرسمية الدقيقة 100% بالخط المائل الصحيح لمنع خطأ ERR_NAME_NOT_RESOLVED
     if (platform == 'انستغرام' || platform == 'Instagram') {
       urlString = 'https://instagram.com/149494825257596'; 
     } else if (platform == 'تيك توك' || platform == 'TikTok') {
@@ -70,15 +63,13 @@ class _MainRecoveryScreenState extends State<MainRecoveryScreen> {
     } else if (platform == 'فيسبوك' || platform == 'Facebook') {
       urlString = 'https://facebook.com'; 
     }
-
     final Uri url = Uri.parse(urlString);
-    
     if (await canLaunchUrl(url)) {
       await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('تعذر فتح رابط الدعم المباشر، الرجاء التحقق من المتصفح')),
+          const SnackBar(content: Text('تعذر فتح رابط الدعم المباشر')),
         );
       }
     }
@@ -86,14 +77,8 @@ class _MainRecoveryScreenState extends State<MainRecoveryScreen> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      String generatedText = "Hello Support team,\n"
-          "My Account on $_selectedPlatform with username: ${_usernameController.text} has been $_selectedProblem.\n"
-          "My contact email is: ${_emailController.text}.\n"
-          "Additional Details: ${_otherProblemController.text}\n"
-          "Please help me recover it as soon as possible. Thank you.";
-
+      String generatedText = "Hello Support team,\nMy Account on $_selectedPlatform with username: ${_usernameController.text} has been $_selectedProblem.\nMy contact email is: ${_emailController.text}.\nPlease help me recover it. Thank you.";
       Clipboard.setData(ClipboardData(text: generatedText));
-
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -105,16 +90,12 @@ class _MainRecoveryScreenState extends State<MainRecoveryScreen> {
             actionsAlignment: MainAxisAlignment.center,
             actions: [
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                 onPressed: () {
                   Navigator.pop(context); 
                   _launchSupportUrl(_selectedPlatform!); 
                 },
-                child: Text(lang['ar']!['go_btn']!, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                child: Text(lang['ar']!['go_btn']!, style: const TextStyle(color: Colors.white)),
               ),
             ],
           );
@@ -128,21 +109,14 @@ class _MainRecoveryScreenState extends State<MainRecoveryScreen> {
     String cl = 'ar';
     return Scaffold(
       appBar: AppBar(
-        title: Text(lang[cl]!['title']!, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)),
+        title: Text(lang[cl]!['title']!, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.blue.withOpacity(0.8), 
-        elevation: 2,
+        backgroundColor: Colors.blue,
       ),
-      // 🔑 دمج صورة الخلفية المخصصة لتغطي شاشتك الحقيقية بالكامل
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/bg_image.png'),
-            fit: BoxFit.cover, 
-          ),
-        ),
+        color: const Color(0xFF0F172A),
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: SingleChildScrollView(
@@ -152,80 +126,58 @@ class _MainRecoveryScreenState extends State<MainRecoveryScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(lang[cl]!['sub']!, style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold, shadows: [Shadow(color: Colors.black, blurRadius: 2)])),
+                  Text(lang[cl]!['sub']!, style: const TextStyle(fontSize: 14, color: Colors.white)),
                   const SizedBox(height: 25),
-                  
-                  Theme(
-                    data: Theme.of(context).copyWith(canvasColor: Colors.white),
-                    child: DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        labelText: lang[cl]!['platform'], 
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.9),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-                      ),
-                      value: _selectedPlatform,
-                      items: ['انستغرام', 'تيك توك', 'فيسبوك'].map((String value) {
-                        return DropdownMenuItem<String>(value: value, child: Text(value, style: const TextStyle(color: Colors.black)));
-                      }).toList(),
-                      onChanged: (val) => setState(() => _selectedPlatform = val),
-                      validator: (val) => val == null ? lang[cl]!['val_platform'] : null,
-                    ),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(labelText: lang[cl]!['platform'], filled: true, fillColor: Colors.white),
+                    value: _selectedPlatform,
+                    items: ['انستغرام', 'تيك توك', 'فيسبوك'].map((v) => DropdownMenuItem(value: v, child: Text(v))).toList(),
+                    onChanged: (val) => setState(() => _selectedPlatform = val),
+                    validator: (val) => val == null ? lang[cl]!['val_platform'] : null,
                   ),
                   const SizedBox(height: 15),
-
-                  Theme(
-                    data: Theme.of(context).copyWith(canvasColor: Colors.white),
-                    child: DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        labelText: lang[cl]!['problem'], 
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.9),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-                      ),
-                      value: _selectedProblem,
-                      items: ['تم اختراقه (Hacked)', 'تم تعطيله (Disabled)', 'نسيت كلمة السر (Forgot Password)'].map((String value) {
-                        return DropdownMenuItem<String>(value: value, child: Text(value, style: const TextStyle(color: Colors.black)));
-                      }).toList(),
-                      onChanged: (val) => setState(() => _selectedProblem = val),
-                      validator: (val) => val == null ? lang[cl]!['val_problem'] : null,
-                    ),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(labelText: lang[cl]!['problem'], filled: true, fillColor: Colors.white),
+                    value: _selectedProblem,
+                    // 🔥 تمت إعادة جميع خيارات المشاكل السابقة كاملة وموسعة هنا بالأسفل بالملي
+                    items: ['تم اختراقه (Hacked)', 'تم تعطيله (Disabled)', 'نسيت كلمة السر (Forgot Password)', 'مشكلة في التحقق بخطوتين (2FA Problem)'].map((v) => DropdownMenuItem(value: v, child: Text(v))).toList(),
+                    onChanged: (val) => setState(() => _selectedProblem = val),
+                    validator: (val) => val == null ? lang[cl]!['val_problem'] : null,
                   ),
                   const SizedBox(height: 15),
-
                   TextFormField(
                     controller: _usernameController,
-                    decoration: InputDecoration(
-                      labelText: lang[cl]!['username'], 
-                      filled: true,
-                      fillColor: Colors.white.withOpacity(0.9),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-                    ),
+                    decoration: InputDecoration(labelText: lang[cl]!['username'], filled: true, fillColor: Colors.white),
                     validator: (val) => val!.isEmpty ? lang[cl]!['val_user'] : null,
                   ),
                   const SizedBox(height: 15),
-
                   TextFormField(
                     controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      labelText: lang[cl]!['email'], 
-                      filled: true,
-                      fillColor: Colors.white.withOpacity(0.9),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-                    ),
+                    decoration: InputDecoration(labelText: lang[cl]!['email'], filled: true, fillColor: Colors.white),
                     validator: (val) => val!.isEmpty ? lang[cl]!['val_email'] : null,
                   ),
                   const SizedBox(height: 15),
-
                   TextFormField(
                     controller: _otherProblemController,
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      labelText: lang[cl]!['other'], 
-                      filled: true,
-                      fillColor: Colors.white.withOpacity(0.9),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-                    ),
+                    maxLines: 2,
+                    decoration: InputDecoration(labelText: lang[cl]!['other'], filled: true, fillColor: Colors.white),
                   ),
                   const SizedBox(height: 35),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                      onPressed: _submitForm,
+                      child: Text(lang[cl]!['btn']!, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
