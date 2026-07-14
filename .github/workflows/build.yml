@@ -26,9 +26,9 @@ jobs:
           flutter-version: any
           channel: 'stable'
 
-      - name: Overwrite Project Configurations
+      - name: Recreate Project and Set Brand Name
         run: |
-          # 1. كتابة ملف التكوين النظيف والموزون بالمسافات القياسية
+          # 1. إعادة توليد ملف pubspec الافتراضي المستقر لمنع خطأ التعارض
           cat << 'EOF' > pubspec.yaml
           name: help_recover
           description: "A new Flutter project for account recovery support."
@@ -50,12 +50,15 @@ jobs:
               - assets/bg_image.png
           EOF
           
-          # 2. توليد بيئة أندرويد نظيفة ومستقرة بالمعرف التجاري الخاص بك
+          # 2. بناء مجلد أندرويد نظيف ومستقر كلياً
           rm -rf android
           flutter create . --platforms=android --org=com.mohammed
           flutter pub get
           
-          # 3. حقن أذونات جدار حماية الأندرويد للمتصفح تلقائياً لحل مشكلة الزر نهائياً
+          # 3. حقن الاسم التسويقي الرسمي تحت الأيقونة في واجهة الهاتف الخارجي بالملي
+          sed -i 's/android:label="help_recover"/android:label="استرجاع حساب انستغرام وفيسبوك وتكتوك"/g' android/app/src/main/AndroidManifest.xml
+          
+          # 4. حقن أذونات جدار حماية الأندرويد للمتصفح لمنع حظر الروابط
           sed -i '/<application/i \    <queries>\n        <intent>\n            <action android:name="android.intent.action.VIEW" />\n            <category android:name="android.intent.category.BROWSABLE" />\n            <data android:scheme="https" />\n        </intent>\n        <intent>\n            <action android:name="android.intent.action.VIEW" />\n            <category android:name="android.intent.category.BROWSABLE" />\n            <data android:scheme="http" />\n        </intent>\n    </queries>\n' android/app/src/main/AndroidManifest.xml
 
       - name: Build Debug APK
