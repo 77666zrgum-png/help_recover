@@ -26,9 +26,10 @@ jobs:
           flutter-version: any
           channel: 'stable'
 
-      - name: Clean Cache and Fix Gradle
+      - name: Recreate Android Project Platform
         run: |
-          flutter clean
+          rm -rf android
+          flutter create . --platforms=android
           flutter pub get
 
       - name: Build Debug APK
