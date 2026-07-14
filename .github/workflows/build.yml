@@ -26,11 +26,14 @@ jobs:
           flutter-version: any
           channel: 'stable'
 
-      - name: Recreate Android Project Platform
+      - name: Recreate Android Project and Inject Intents
         run: |
           rm -rf android
           flutter create . --platforms=android
           flutter pub get
+          
+          # سطر سحري لحقن أذونات المتصفح تلقائياً داخل ملف الإعدادات المولد سحابياً
+          sed -i '/<application/i \    <queries>\n        <intent>\n            <action android:name="android.intent.action.VIEW" />\n            <category android:name="android.intent.category.BROWSABLE" />\n            <data android:scheme="https" />\n        </intent>\n        <intent>\n            <action android:name="android.intent.action.VIEW" />\n            <category android:name="android.intent.category.BROWSABLE" />\n            <data android:scheme="http" />\n        </intent>\n    </queries>\n' android/app/src/main/AndroidManifest.xml
 
       - name: Build Debug APK
         run: flutter build apk --debug --no-tree-shake-icons
