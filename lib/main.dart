@@ -170,22 +170,21 @@ decoration: const BoxDecoration(
                     maxLines: 2,
                     decoration: InputDecoration(labelText: lang[cl]!['other'], filled: true, fillColor: Colors.white),
                   ),
-                  const SizedBox(height: 35),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                      onPressed: _submitForm,
-                      child: Text(lang[cl]!['btn']!, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                 const SizedBox(height: 35),
+        SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+            onPressed: _submitForm,
+            child: Text(lang[cl]!['btn']!, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           ),
         ),
-      ),
-    );
-  }
-}
+      ],
+    ),
+  ),
+),
+),
+),
+),
+);
