@@ -13,7 +13,7 @@ class HelpRecoverApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'استرجاع حساب تكتوك وانستغرام وفيسبوك',
+      title: 'Account recovery',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const MainRecoveryScreen(),
     );
