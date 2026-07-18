@@ -10,9 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   url_launcher: ^6.2.5
-  flutter_localizations:
-  sdk: flutter
-  provider: ^6.1.1
+ 
 dev_dependencies:
   flutter_test:
   sdk: flutter
@@ -21,7 +19,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  generate: true
+  
   assets:
     - assets/bg_image.png
     - assets/icon.png
