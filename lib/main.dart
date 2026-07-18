@@ -33,9 +33,9 @@ class _MainRecoveryScreenState extends State<MainRecoveryScreen> {
   String? _selectedPlatform;
   String? _selectedProblem;
 
-  final Map<String, Map<String, String>> lang = {
+ final Map<String, Map<String, String>> lang = {
     'ar': {
-      'title': 'استرجاع حساب تكتوك وانستغرام وفيسبوك',
+      'title': 'استرجاع حساب انستغرام وفيسبوك وتكتوك',
       'sub': 'قم بتعبئة البيانات لإنشاء طلب استعادة الحساب فوراً',
       'platform': 'اختر المنصة الرقمية',
       'problem': 'ما هي المشكلة التي تواجهها؟',
@@ -50,6 +50,23 @@ class _MainRecoveryScreenState extends State<MainRecoveryScreen> {
       'val_problem': 'الرجاء تحديد نوع المشكلة',
       'val_user': 'الرجاء إدخال اسم المستخدم',
       'val_email': 'الرجاء إدخال البريد الإلكتروني',
+    },
+    'en': {
+      'title': 'Social Media Account Recovery',
+      'sub': 'Fill in the details to create a recovery request instantly',
+      'platform': 'Select Social Platform',
+      'problem': 'What issue are you facing?',
+      'username': 'Account Link (Username) or User ID',
+      'email': 'Your Contact Email for Support',
+      'other': 'Explain the problem in detail (Optional)',
+      'btn': 'Submit Request & Secure Move',
+      'success_title': 'Your Request is Under Review ⏳',
+      'success_body': 'Your request has been submitted successfully and data is being verified on the server. The professional appeal message has been copied to your clipboard automatically! Please paste it on the official support page.',
+      'go_btn': 'Go to Official Support Page',
+      'val_platform': 'Please select a platform',
+      'val_problem': 'Please specify the problem type',
+      'val_user': 'Please enter your username',
+      'val_email': 'Please enter your email address',
     }
   };
 
@@ -106,7 +123,8 @@ class _MainRecoveryScreenState extends State<MainRecoveryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String cl = 'ar';
+    // فحص لغة هاتف العميل تلقائياً وتطبيق القاموس المناسب
+String cl = Localizations.localeOf(context).languageCode == 'en' ? 'en' : 'ar';
     return Scaffold(
       appBar: AppBar(
         title: Text(lang[cl]!['title']!, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white)),
